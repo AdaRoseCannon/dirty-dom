@@ -1,6 +1,6 @@
 {
   "name": "dirty-dom-lib",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Don't use this....",
   "main": "dirty-filthy-script.js",
   "dependencies": {

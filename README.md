@@ -26,6 +26,8 @@ Node.addHTML(stringHTML); // Append some HTML
 
 Node.empty(); // Remove all children 
 
+Node.prependChild(); // appendChild but as the first element.
+
 Node.css(object); /* Object.style
 It sets the style of elements.
 Numeric properties default to pixels but strings can be used.

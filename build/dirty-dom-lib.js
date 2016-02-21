@@ -24,6 +24,15 @@ Node.prototype.$$ = function (expr) {
 	return [].concat(_toConsumableArray(this.querySelectorAll(expr)));
 };
 
+Node.prototype.prependChild = function (child) {
+	var p = this.childNodes[0];
+	if (p) {
+		this.insertBefore(child, p);
+	} else {
+		this.appendChild(child);
+	}
+};
+
 Node.prototype.on = window.on = function (name, fn) {
 	if (!this.funcRef) this.funcRef = new Set();
 
