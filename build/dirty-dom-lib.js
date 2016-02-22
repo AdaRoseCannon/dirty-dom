@@ -128,6 +128,11 @@ Node.prototype.wrap = function (el) {
 	return this;
 };
 
+Node.prototype.setClassName = function (name) {
+	this.className = name;
+	return this;
+};
+
 var MAKE = {};
 MAKE.div = function () {
 	return document.createElement('div');

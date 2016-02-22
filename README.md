@@ -31,6 +31,8 @@ Node.prependChild(el); // appendChild but as the first element.
 
 Node.wrap(el); // Wraps itself in el by appending itself to the end.
 
+Node.setClassName(stringName); // sets the classname for chaining
+
 Node.css(object); /* Object.style
 It sets the style of elements.
 Numeric properties default to pixels but strings can be used.

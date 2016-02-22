@@ -17,5 +17,5 @@
     "build": "mkdir -p build; browserify ./dirty-filthy-script.js -t [ babelify --presets [ es2015] ]] -o ./build/dirty-dom-lib.js && uglifyjs --compress --mangle --screw-ie8 -- ./build/dirty-dom-lib.js > ./build/dirty-dom-lib.min.js"
   },
   "author": "",
-  "license": "ISC"
+  "license": "MIT"
 }
