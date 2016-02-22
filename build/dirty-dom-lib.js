@@ -125,6 +125,7 @@ Node.prototype.fire = function (name) {
 Node.prototype.wrap = function (el) {
 	this.parentNode.insertBefore(el, this);
 	el.appendChild(this);
+	return this;
 };
 
 var MAKE = {};
