@@ -10,10 +10,10 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
 var marked = require('marked');
 
-window.$ = function (expr) {
+if (window.$ === undefined) window.$ = function (expr) {
 	return document.querySelector(expr);
 };
-window.$$ = function (expr) {
+if (window.$$ === undefined) window.$$ = function (expr) {
 	return [].concat(_toConsumableArray(document.querySelectorAll(expr)));
 };
 

@@ -7,8 +7,8 @@
 
 const marked = require('marked');
 
-window.$ = expr => document.querySelector(expr);
-window.$$ = expr => [...document.querySelectorAll(expr)];
+if (window.$ === undefined) window.$ = expr => document.querySelector(expr);
+if (window.$$ === undefined) window.$$ = expr => [...document.querySelectorAll(expr)];
 
 Node.prototype.$ = function(expr) { return this.querySelector(expr) ;};
 Node.prototype.$$ = function(expr) { return [...this.querySelectorAll(expr)] ;};
