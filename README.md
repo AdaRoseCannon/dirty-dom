@@ -7,6 +7,7 @@ Don't use this. This is a dirty script which will add and overwrite DOM function
 $(selector) // equivalent to querySelector
 $$(selector) // equivalent to querySelectorAll (returns array, yay!)
 
+// These all return themselves so can be chained.
 
 Node.on(stringName, function); // equivalent to addEventListener
 
@@ -26,7 +27,9 @@ Node.addHTML(stringHTML); // Append some HTML
 
 Node.empty(); // Remove all children 
 
-Node.prependChild(); // appendChild but as the first element.
+Node.prependChild(el); // appendChild but as the first element.
+
+Node.wrap(el); // Wraps itself in el by appending itself to the end.
 
 Node.css(object); /* Object.style
 It sets the style of elements.

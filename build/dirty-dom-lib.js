@@ -122,6 +122,11 @@ Node.prototype.fire = function (name) {
 	return this;
 };
 
+Node.prototype.wrap = function (el) {
+	this.parentNode.insertBefore(el, this);
+	el.appendChild(this);
+};
+
 var MAKE = {};
 MAKE.div = function () {
 	return document.createElement('div');

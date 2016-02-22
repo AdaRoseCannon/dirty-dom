@@ -102,6 +102,11 @@ Node.prototype.fire = function (name, detail = {}) {
 	return this;
 };
 
+Node.prototype.wrap = function (el) {
+	this.parentNode.insertBefore(el, this);
+	el.appendChild(this);
+}
+
 const MAKE = {};
 MAKE.div = () => document.createElement('div');
 MAKE.br = () => document.createElement('br');
