@@ -6,6 +6,7 @@
  */
 
 const marked = require('marked');
+require('./lib/polyfill-arrayfrom');
 
 if (window.$ === undefined) window.$ = expr => document.querySelector(expr);
 if (window.$$ === undefined) window.$$ = expr => [...document.querySelectorAll(expr)];
