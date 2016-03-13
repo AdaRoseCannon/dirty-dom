@@ -16,15 +16,15 @@ function $(expr) {
 	return this.querySelector(expr);
 }
 
-if (window.$ === undefined) window.$ = $.bind(document);
-if (window.$$ === undefined) window.$$ = function (expr) {
-	return [].concat(_toConsumableArray(document.querySelectorAll(expr)));
+function $$(expr) {
+	return Array.from(this.querySelectorAll(expr));
 };
 
+if (window.$ === undefined) window.$ = $.bind(document);
+if (window.$$ === undefined) window.$$ = $$.bind(document);
+
 Node.prototype.$ = $;
-Node.prototype.$$ = function (expr) {
-	return Array.from.apply(Array, _toConsumableArray(this.querySelectorAll(expr)));
-};
+Node.prototype.$$ = $$;
 
 Node.prototype.prependChild = function (child) {
 	var p = this.childNodes[0];
