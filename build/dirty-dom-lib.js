@@ -1,6 +1,5 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 'use strict';
-/* eslint browser: true */
 
 /*
  * Polyfill some utility functions.
@@ -11,18 +10,20 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 var marked = require('marked');
 require('./lib/polyfill-arrayfrom');
 
-if (window.$ === undefined) window.$ = function (expr) {
-	return document.querySelector(expr);
-};
+function $(expr) {
+	if (!expr || typeof expr !== 'string') return this;
+	if (expr[0] === '<') return MAKE.html(expr).firstChild;
+	return this.querySelector(expr);
+}
+
+if (window.$ === undefined) window.$ = $.bind(document);
 if (window.$$ === undefined) window.$$ = function (expr) {
 	return [].concat(_toConsumableArray(document.querySelectorAll(expr)));
 };
 
-Node.prototype.$ = function (expr) {
-	return this.querySelector(expr);
-};
+Node.prototype.$ = $;
 Node.prototype.$$ = function (expr) {
-	return [].concat(_toConsumableArray(this.querySelectorAll(expr)));
+	return Array.from.apply(Array, _toConsumableArray(this.querySelectorAll(expr)));
 };
 
 Node.prototype.prependChild = function (child) {
@@ -103,9 +104,9 @@ Node.prototype.empty = function () {
 
 Node.prototype.css = function (props) {
 	function units(prop, i) {
-		if (typeof i === "number") {
+		if (typeof i === 'number') {
 			if (prop.match(/width|height|top|left|right|bottom/)) {
-				return i + "px";
+				return i + 'px';
 			}
 		}
 		return i;

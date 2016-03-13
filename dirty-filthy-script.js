@@ -1,5 +1,4 @@
 'use strict';
-/* eslint browser: true */
 
 /*
  * Polyfill some utility functions.
@@ -8,11 +7,17 @@
 const marked = require('marked');
 require('./lib/polyfill-arrayfrom');
 
-if (window.$ === undefined) window.$ = expr => document.querySelector(expr);
+function $ (expr) {
+	if (!expr || typeof expr !== 'string') return this;
+	if (expr[0] === '<') return MAKE.html(expr).firstChild;
+	return this.querySelector(expr);
+}
+
+if (window.$ === undefined) window.$ = $.bind(document);
 if (window.$$ === undefined) window.$$ = expr => [...document.querySelectorAll(expr)];
 
-Node.prototype.$ = function(expr) { return this.querySelector(expr) ;};
-Node.prototype.$$ = function(expr) { return [...this.querySelectorAll(expr)] ;};
+Node.prototype.$ = $;
+Node.prototype.$$ = function(expr) { return Array.from(...this.querySelectorAll(expr)) ;};
 
 Node.prototype.prependChild = function (child) {
 	const p = this.childNodes[0];
@@ -79,20 +84,20 @@ Node.prototype.addHTML = function (...str) {
 };
 
 Node.prototype.empty = function () {
-	while(this.firstChild) this.removeChild(this.firstChild);
+	while (this.firstChild) this.removeChild(this.firstChild);
 	return this;
 };
 
 Node.prototype.css = function (props) {
 	function units(prop, i) {
-		if (typeof i === "number") {
+		if (typeof i === 'number') {
 			if (prop.match(/width|height|top|left|right|bottom/)) {
-				return i + "px";
+				return i + 'px';
 			}
 		}
 		return i;
 	}
-	for (let n in props) {
+	for (const n in props) {
 		this.style[n] = units(n, props[n]);
 	}
 	return this;
