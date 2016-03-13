@@ -13,11 +13,15 @@ function $ (expr) {
 	return this.querySelector(expr);
 }
 
+function $$ (expr) {
+	return Array.from(this.querySelectorAll(expr));
+};
+
 if (window.$ === undefined) window.$ = $.bind(document);
-if (window.$$ === undefined) window.$$ = expr => [...document.querySelectorAll(expr)];
+if (window.$$ === undefined) window.$$ = $$.bind(document);
 
 Node.prototype.$ = $;
-Node.prototype.$$ = function(expr) { return Array.from(...this.querySelectorAll(expr)) ;};
+Node.prototype.$$ = $$;
 
 Node.prototype.prependChild = function (child) {
 	const p = this.childNodes[0];
