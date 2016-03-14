@@ -7,6 +7,8 @@ Don't use this. This is a dirty script which will add and overwrite DOM function
 $(selector) // equivalent to querySelector
 $$(selector) // equivalent to querySelectorAll (returns array, yay!)
 
+// Also an input of a DOM element string will return that e.g. $('<div class="a"><p>Yo!!</p></div>')
+
 // These all return themselves so can be chained.
 
 Node.on(stringName, function); // equivalent to addEventListener
