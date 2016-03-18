@@ -12,12 +12,32 @@ require('./lib/polyfill-arrayfrom');
 
 function $(expr) {
 	if (!expr || typeof expr !== 'string') return this;
-	if (expr[0] === '<') return MAKE.html(expr).firstChild;
-	return this.querySelector(expr);
+	if (expr[0] === '<') {
+		var el = MAKE.html(expr).firstChild;
+		if (this !== document) {
+			this.appendChild(el);
+		}
+		return el;
+	} else {
+		return this.querySelector(expr);
+	}
 }
 
 function $$(expr) {
-	return Array.from(this.querySelectorAll(expr));
+	var _this = this;
+
+	if (!expr || typeof expr !== 'string') return this;
+	if (expr[0] === '<') {
+		var els = Array.from(MAKE.html(expr).childNodes);
+		if (this !== document) {
+			els.forEach(function (el) {
+				return _this.appendChild(el);
+			});
+		}
+		return els;
+	} else {
+		return Array.from(this.querySelectorAll(expr));
+	}
 };
 
 if (window.$ === undefined) window.$ = $.bind(document);
@@ -51,14 +71,14 @@ Node.prototype.prevAll = function () {
 };
 
 Node.prototype.off = window.off = function (name, fn) {
-	var _this = this;
+	var _this2 = this;
 
 	if (!this.funcRef) return;
 	if (fn) {
 		this.removeEventListener(name, fn);
 	} else {
 		this.funcRef.forEach(function (fn) {
-			return _this.removeEventListener(name, fn);
+			return _this2.removeEventListener(name, fn);
 		});
 	}
 	this.funcRef.delete(fn);
@@ -112,7 +132,9 @@ Node.prototype.css = function (props) {
 		return i;
 	}
 	for (var n in props) {
-		this.style[n] = units(n, props[n]);
+		if (props.hasOwnProperty(n)) {
+			this.style[n] = units(n, props[n]);
+		}
 	}
 	return this;
 };

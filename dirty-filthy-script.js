@@ -9,12 +9,28 @@ require('./lib/polyfill-arrayfrom');
 
 function $ (expr) {
 	if (!expr || typeof expr !== 'string') return this;
-	if (expr[0] === '<') return MAKE.html(expr).firstChild;
-	return this.querySelector(expr);
+	if (expr[0] === '<') {
+		const el = MAKE.html(expr).firstChild;
+		if (this !== document) {
+			this.appendChild(el);
+		}
+		return el;
+	} else {
+		return this.querySelector(expr);
+	}
 }
 
 function $$ (expr) {
-	return Array.from(this.querySelectorAll(expr));
+	if (!expr || typeof expr !== 'string') return this;
+	if (expr[0] === '<') {
+		const els = Array.from(MAKE.html(expr).childNodes);
+		if (this !== document) {
+			els.forEach(el => this.appendChild(el));
+		}
+		return els;
+	} else {
+		return Array.from(this.querySelectorAll(expr));
+	}
 };
 
 if (window.$ === undefined) window.$ = $.bind(document);
@@ -102,7 +118,9 @@ Node.prototype.css = function (props) {
 		return i;
 	}
 	for (const n in props) {
-		this.style[n] = units(n, props[n]);
+		if (props.hasOwnProperty(n)) {
+			this.style[n] = units(n, props[n]);
+		}
 	}
 	return this;
 };
