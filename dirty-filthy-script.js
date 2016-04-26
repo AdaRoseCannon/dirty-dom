@@ -9,8 +9,9 @@ require('./lib/polyfill-arrayfrom');
 
 function $ (expr) {
 	if (!expr || typeof expr !== 'string') return this;
-	if (expr[0] === '<') {
-		const el = MAKE.html(expr).firstChild;
+	if (expr.trim()[0] === '<') {
+		const el = MAKE.html(expr).querySelector('*');
+		if (!el) return;
 		if (this !== document) {
 			this.appendChild(el);
 		}
